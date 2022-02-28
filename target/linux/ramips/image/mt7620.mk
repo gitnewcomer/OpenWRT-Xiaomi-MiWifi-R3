@@ -467,8 +467,9 @@ define Device/miwifi-mini
 endef
 TARGET_DEVICES += miwifi-mini
 
-+define Device/miwifi-r3
+define Device/miwifi-r3
   DTS := MIWIFI-R3
+  SOC := mt7620a
   BLOCKSIZE := 128k
   PAGESIZE := 2048
   KERNEL_SIZE := 4096k
