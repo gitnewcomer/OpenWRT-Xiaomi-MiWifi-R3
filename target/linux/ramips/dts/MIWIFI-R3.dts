@@ -7,7 +7,7 @@
 
 / {
 	compatible = "xiaomi,miwifi-r3", "ralink,mt7620a-soc";
-	model = "Xiaomi Mi Router R3";
+	model = "Xiaomi MiWiFi R3";
 
 	aliases {
 		led-status = &led_status_blue;
