@@ -468,6 +468,7 @@ endef
 TARGET_DEVICES += miwifi-mini
 
 +define Device/miwifi-r3
+  DTS := MIWIFI-R3
   SOC := mt7620a
   BLOCKSIZE := 128k
   PAGESIZE := 2048
@@ -478,8 +479,7 @@ TARGET_DEVICES += miwifi-mini
   IMAGE/kernel1.bin := append-kernel | check-size $$$$(KERNEL_SIZE)
   IMAGE/rootfs0.bin := append-ubi | check-size
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
-  DEVICE_VENDOR := Xiaomi
-  DEVICE_MODEL := Xiaomi MiWiFi R3
+  DEVICE_TITLE := Xiaomi MiWiFi R3
   DEVICE_PACKAGES := kmod-mt76x2 kmod-usb2 kmod-usb-ohci uboot-envtools
 endef
 TARGET_DEVICES += miwifi-r3
