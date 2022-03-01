@@ -38,7 +38,7 @@ jobs:
     - name: Clone source code
       working-directory: /workdir
       run: |
-        sudo mkdir openwrt
+        mkdir openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
     
     - name: Load custom config
