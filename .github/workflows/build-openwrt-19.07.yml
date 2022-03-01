@@ -81,7 +81,7 @@ jobs:
         
     - name: Load custom config
       run: |
-        [ -f $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config && echo 'Custom config loaded!' || echo 'No custom config!' && exit 1
+        [ -f $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config && echo 'Custom config loaded!' || echo 'No custom config!'
 
     - name: Apply patches
       run: |
