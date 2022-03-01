@@ -1,6 +1,6 @@
 # Build OpenWrt using GitHub Actions
 
-name: Build OpenWRT 19.07
+name: Test config 19.07
 
 on:
   workflow_dispatch:
