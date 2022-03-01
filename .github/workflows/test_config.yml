@@ -1,0 +1,49 @@
+# Build OpenWrt using GitHub Actions
+
+name: Build OpenWRT 19.07
+
+on:
+  workflow_dispatch:
+
+env:
+  REPO_URL: https://github.com/gitnewcomer/OpenWRT-Xiaomi-MiWifi-R3.git
+  REPO_BRANCH: openwrt-19.07
+  REPO_DEPTH: 1
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: build-config/.config
+  FILES_PATH: files
+  PATCHES_PATH: patches
+  UPLOAD_RELEASE: true
+  TZ: UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+        
+    - name: Load custom config
+      run: |
+        mkdir openwrt
+        [ -f $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config && echo 'Custom config loaded!' || echo 'No custom config!'
+
+    - name: Read config target
+      run: |
+        cd openwrt
+        cat .config
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/^CONFIG_TARGET_(.*)_(.*)_DEVICE_(.*)=y/\1/'
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/^CONFIG_TARGET_(.*)_(.*)_DEVICE_(.*)=y/\2/'
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/^CONFIG_TARGET_(.*)_(.*)_DEVICE_(.*)=y/\3/'
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/^CONFIG_TARGET_(.*)_(.*)_DEVICE_(.*)=y/\1/' > ARCH_NAME
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/^CONFIG_TARGET_(.*)_(.*)_DEVICE_(.*)=y/\2/' > CPU_NAME
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/^CONFIG_TARGET_(.*)_(.*)_DEVICE_(.*)=y/\3/' > DEVICE_NAME
+        [ -s ARCH_NAME ] && echo "ARCH_NAME=$(cat ARCH_NAME)" >> $GITHUB_ENV
+        [ -s CPU_NAME ] && echo "CPU_NAME=$(cat CPU_NAME)" >> $GITHUB_ENV
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        echo -e "Arch: $(cat ARCH_NAME)\nCPU: $(cat CPU_NAME)\nDevice: $(cat DEVICE_NAME)"
+        
+    - name: Delete workflow runs
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: 7
+        keep_minimum_runs: 2
